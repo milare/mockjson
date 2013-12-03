@@ -31,8 +31,8 @@ end
 
 post '/e' do
   begin
-    data = {json: Base64.encode64(params[:entry][:json])}
-    entry = {short_id: random_string(8)}.merge(data)
+    json = Base64.encode64(params[:entry][:json])
+    entry = {short_id: random_string(8)}.merge(json: json)
     raise Exception if find_entry_by_short_id(entry[:short_id])
   rescue
     retry
@@ -51,6 +51,6 @@ get '/:short_id' do
   content_type :json
   entry = find_entry_by_short_id(params[:short_id])
   halt 404 unless entry
-  entry['json']
+  Base64.decode64(entry['json'])
 end
 
