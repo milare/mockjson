@@ -1,6 +1,8 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
-gem 'mongo'
-gem 'short_url_token_generator'
+gem 'rack-contrib'
+gem 'moped'
+gem 'pry'
+gem 'pry-nav'
 

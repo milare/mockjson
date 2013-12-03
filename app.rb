@@ -2,6 +2,7 @@ require 'sinatra'
 require 'moped'
 require 'pry'
 require 'json'
+require 'base64'
 
 configure do
   mongo_host = ENV['MJ_MONGO_HOSTNAME'] || 'localhost'
@@ -25,27 +26,25 @@ helpers do
 end
 
 get '/' do
+  erb :index
 end
 
 post '/e' do
-  if request.content_type.include? "application/json"
-    begin
-      params = JSON.parse(request.body.read)
-      entry = {short_id: random_string(8)}.merge(params)
-      raise Exception if find_entry_by_short_id(entry[:short_id])
-    rescue
-      retry
-    end
-    DB[:entries].insert(entry)
-    halt 201
-  else
-    halt 422
+  begin
+    data = {json: Base64.encode64(params[:entry][:json])}
+    entry = {short_id: random_string(8)}.merge(data)
+    raise Exception if find_entry_by_short_id(entry[:short_id])
+  rescue
+    retry
   end
+  DB[:entries].insert(entry)
+  halt 201
 end
 
 get '/e/:short_id' do
-  entry = find_entry_by_short_id(params[:short_id])
-  halt 404 unless entry
+  @entry = find_entry_by_short_id(params[:short_id])
+  halt 404 unless @entry
+  erb :entry
 end
 
 get '/:short_id' do
