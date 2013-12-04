@@ -38,7 +38,7 @@ post '/e' do
     retry
   end
   DB[:entries].insert(entry)
-  halt 201
+  redirect to("/e/#{entry[:short_id]}")
 end
 
 get '/e/:short_id' do
