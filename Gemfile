@@ -5,4 +5,4 @@ gem 'rack-contrib'
 gem 'moped'
 gem 'pry'
 gem 'pry-nav'
-
+gem 'coderay'

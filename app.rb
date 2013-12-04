@@ -3,6 +3,7 @@ require 'moped'
 require 'pry'
 require 'json'
 require 'base64'
+require 'coderay'
 
 configure do
   mongo_host = ENV['MJ_MONGO_HOSTNAME'] || 'localhost'
@@ -42,8 +43,10 @@ post '/e' do
 end
 
 get '/e/:short_id' do
-  @entry = find_entry_by_short_id(params[:short_id])
-  halt 404 unless @entry
+  entry = find_entry_by_short_id(params[:short_id])
+  @json = Base64.decode64(entry['json'])
+  @api_link = "#{request.base_url}/#{entry['short_id']}"
+  halt 404 unless entry
   erb :entry
 end
 

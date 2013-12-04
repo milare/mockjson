@@ -1,2 +1,7 @@
+<a href="/">Home</a>
+<h3>Here is your JSON</h3>
+API url: <a href="<%= @api_link %>"><%= @api_link %></a>
+<br/>
+<br/>
 
-<%= Base64.decode64(@entry['json']) %>
+<%= CodeRay.scan(@json, :json).div(line_numbers: :table) %>
