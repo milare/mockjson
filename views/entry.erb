@@ -1,5 +1,6 @@
-<h3>This is the link to the following JSON:</h3><a href="<%= @api_link %>"><%= @api_link %></a>
 <br/>
+<a href="<%= @api_link %>"><%= @api_link %></a>
+<h3>This is the link to the following JSON:</h3>
 <br/>
 
 <%= CodeRay.scan(@json, :json).div(line_numbers: :table) %>
